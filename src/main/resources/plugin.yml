@@ -1,0 +1,13 @@
+name: EnderShulkers
+version: ${project.version}
+author: Techdoodle
+main: com.darkender.plugins.endershulkers.EnderShulkers
+api-version: 1.13
+commands:
+  endershulker:
+    aliases:
+      - es
+      - s
+      - shulker
+    description: "Opens a shulker from your enderchest"
+    usage: "/endershulker [name|color|index]"
