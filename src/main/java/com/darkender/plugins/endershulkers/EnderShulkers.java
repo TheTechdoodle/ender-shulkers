@@ -36,6 +36,7 @@ public class EnderShulkers extends JavaPlugin implements Listener
     
     public void openShulker(Player player, ItemStack shulkerBox)
     {
+        // Ensure no other inventories are open (default is crafting)
         if(player.getOpenInventory().getType() != InventoryType.CRAFTING)
         {
             player.closeInventory();
@@ -46,11 +47,13 @@ public class EnderShulkers extends JavaPlugin implements Listener
             BlockStateMeta blockStateMeta = (BlockStateMeta) shulkerBox.getItemMeta();
             if(blockStateMeta.getBlockState() instanceof ShulkerBox)
             {
+                // Load the inventory contents from the shulker
                 ShulkerBox shulker = (ShulkerBox) blockStateMeta.getBlockState();
                 String name = blockStateMeta.hasDisplayName() ? blockStateMeta.getDisplayName() : "Shulker Box";
-                Inventory inv = Bukkit.createInventory(null, 27, name);
+                Inventory inv = Bukkit.createInventory(null, InventoryType.SHULKER_BOX, name);
                 inv.setContents(shulker.getInventory().getContents());
                 player.openInventory(inv);
+                
                 openShulkers.put(player.getUniqueId(), shulkerBox);
                 player.playSound(player.getLocation(), Sound.BLOCK_SHULKER_BOX_OPEN, SoundCategory.BLOCKS, 1.0f, 1.0f);
             }
@@ -62,6 +65,7 @@ public class EnderShulkers extends JavaPlugin implements Listener
     {
         if(openShulkers.containsKey(event.getPlayer().getUniqueId()))
         {
+            // Save the shulker state
             ItemStack item = openShulkers.get(event.getPlayer().getUniqueId());
             BlockStateMeta blockStateMeta = (BlockStateMeta) item.getItemMeta();
             ShulkerBox shulker = (ShulkerBox) blockStateMeta.getBlockState();
@@ -72,6 +76,7 @@ public class EnderShulkers extends JavaPlugin implements Listener
             
             openShulkers.remove(event.getPlayer().getUniqueId());
             
+            // Because getPlayer()... doesn't return a Player...
             if(event.getPlayer() instanceof Player)
             {
                 ((Player) event.getPlayer()).playSound(event.getPlayer().getLocation(), Sound.BLOCK_SHULKER_BOX_CLOSE, SoundCategory.BLOCKS, 1.0f, 1.0f);

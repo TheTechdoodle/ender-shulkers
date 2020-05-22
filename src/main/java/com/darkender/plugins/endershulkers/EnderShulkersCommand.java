@@ -124,6 +124,8 @@ public class EnderShulkersCommand implements CommandExecutor, TabCompleter
         List<ItemStack> shulkers = new ArrayList<>();
         for(ItemStack item : player.getEnderChest())
         {
+            //TODO add support for "fresh" shulker boxes (just crafted or obtained with commands)
+            // This only works for shulker boxes with the shulker box nbt
             if(item != null && item.hasItemMeta() && (item.getItemMeta() instanceof BlockStateMeta))
             {
                 BlockStateMeta meta = (BlockStateMeta) item.getItemMeta();

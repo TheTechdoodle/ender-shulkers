@@ -11,3 +11,8 @@ commands:
       - shulker
     description: "Opens a shulker from your enderchest"
     usage: "/endershulker [name|color|index]"
+    permission: endershulkers.open
+permissions:
+  endershulkers.open:
+    description: Permission to open a shulker from the enderchest with a command
+    default: true
