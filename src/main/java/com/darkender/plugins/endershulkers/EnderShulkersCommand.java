@@ -9,13 +9,15 @@ import org.bukkit.command.TabCompleter;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.BlockStateMeta;
+import org.bukkit.util.StringUtil;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class EnderShulkersCommand implements CommandExecutor, TabCompleter
 {
-    private EnderShulkers enderShulkers;
+    private final EnderShulkers enderShulkers;
     
     public EnderShulkersCommand(EnderShulkers enderShulkers)
     {
@@ -93,7 +95,7 @@ public class EnderShulkersCommand implements CommandExecutor, TabCompleter
     @Override
     public List<String> onTabComplete(CommandSender sender, Command command, String alias, String[] args)
     {
-        if(sender instanceof Player)
+        if(sender instanceof Player && args.length == 1)
         {
             Player player = (Player) sender;
             List<ItemStack> shulkers = getShulkers(player);
@@ -113,10 +115,13 @@ public class EnderShulkersCommand implements CommandExecutor, TabCompleter
                 }
                 catch(Exception ignored) {}
             }
-            
-            return names;
+    
+            List<String> completions = new ArrayList<>();
+            StringUtil.copyPartialMatches(args[0], names, completions);
+            Collections.sort(completions);
+            return completions;
         }
-        return null;
+        return Collections.emptyList();
     }
     
     public List<ItemStack> getShulkers(Player player)
