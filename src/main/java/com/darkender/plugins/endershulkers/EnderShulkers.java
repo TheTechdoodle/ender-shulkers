@@ -61,7 +61,7 @@ public class EnderShulkers extends JavaPlugin implements Listener
     }
     
     @EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
-    public void onInventoryClose(InventoryCloseEvent event)
+    private void onInventoryClose(InventoryCloseEvent event)
     {
         if(openShulkers.containsKey(event.getPlayer().getUniqueId()))
         {
